@@ -1,37 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function NoteList({ notes, DeleteNote, onCompleted , sortBy}) {
+export default function NoteList({ notes, DeleteNote, onCompleted, sortBy }) {
 
-  
- // loop for sort
- let sortedNotes = notes;
- if (sortBy === "earliest")
- sortedNotes = [...notes].sort(
-     (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-   ); //a - b =>  if  a > b ? 1  :  -1
 
- if (sortBy === "latest")
- sortedNotes = [...notes].sort(
-     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-   ); //b - a =>  if  a > b ? -1  :  1
+  // loop for sort
 
- if (sortBy === "completed")
- sortedNotes = [...notes].sort(
-     (a, b) => Number(a.Completed) - Number(b.Completed)
-   );
+  let sortedNotes = notes;
+  if (sortBy === "earliest")
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    ); //a - b =>  if  a > b ? 1  :  -1
 
+  if (sortBy === "latest")
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    ); //b - a =>  if  a > b ? -1  :  1
+
+  if (sortBy === "completed")
+    sortedNotes = [...notes].sort(
+      (a, b) => Number(a.Completed) - Number(b.Completed)
+    );
 
 
   return (
     <div className="note-list">
-      {sortedNotes.map((note) => (
-        <NoteItem
-          key={note.id}
-          note={note}
-          DeleteNote={DeleteNote}
-          onCompleted={onCompleted}
-        />
-      ))}
+      {
+        sortedNotes.map((note) => (
+          <NoteItem
+            key={note.id}
+            note={note}
+            DeleteNote={DeleteNote}
+            onCompleted={onCompleted}
+          />
+        ))
+      }
     </div>
   );
 }
@@ -42,6 +44,11 @@ function NoteItem({ note, DeleteNote, onCompleted }) {
     month: "long",
     year: "numeric",
   };
+
+
+
+
+
   return (
     <div className={`note-item ${note.Completed ? "completed" : ""}`}>
       <div className="note-item__header">
@@ -58,6 +65,7 @@ function NoteItem({ note, DeleteNote, onCompleted }) {
             value={note.id}
             checked={note.onCompleted}
             onChange={onCompleted}
+
           />
         </div>
       </div>
